@@ -1,21 +1,17 @@
 	Pipeline {
-             agent any 
-              stages{
-	         stage('Prepare') {
-	            git 'https://github.com/achu152/pipeline_jenkins.git'
-	
-	         }
-	         stage('Build') {
-	              bat "mvn clean test"
-	
-	         }
-	         stage('Package') {
-	              bat "mvn package"
-	
-	         }
-		stage('Results') {
-	              junit '**/target/surefire-reports/TEST-*.xml'
-	             archive 'target/*.jar'
-	         }
-	         }
+agent any 
+stages{
+         stage('Build') {
+              bat "mvn clean test"
+
+         }
+         stage('Package') {
+              bat "mvn package"
+
+         }
+		 stage('test') {
+              junit '**/target/surefire-reports/TEST-*.xml'
+             archive 'target/*.jar'
+         }
+         }
 		 }
