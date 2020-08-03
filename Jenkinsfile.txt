@@ -1,5 +1,6 @@
-	pipeline
- {
+	Pipeline {
+             agent any 
+              stages{
 	         stage('Prepare') {
 	            git 'https://github.com/achu152/pipeline_jenkins.git'
 	
@@ -17,3 +18,4 @@
 	             archive 'target/*.jar'
 	         }
 	         }
+		 }
