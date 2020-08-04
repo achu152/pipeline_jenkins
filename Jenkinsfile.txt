@@ -1,25 +1,25 @@
-		pipeline {
+pipeline {
 	agent any 
 	stages{
-	         stage('cleaning') {
+	         stage('parallel execution') {
 			 steps {
+			      parallel{
+				  a: {
 	              bat "mvn clean"
 	
-	         }
-			 }
-	         stage('Testing') {
-			 steps {
-	              bat "mvn test"
+	         },
+			  b: {
+	              bat "mvn test
 	
-	         }
-			 }
-			 stage('packaging') {
-	           steps {
+	         },
+			  c: {
 	              bat "mvn package"
 	
 	         }
 			 }
-			 stage('Consolidate results') {
+			 }
+			 }
+	         stage('Consolidate results') {
 	           steps {
 	              input ("do you want to capture results?")
 				  junit '**/target/surefire-reports/TEST-*.xml'
