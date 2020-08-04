@@ -1,4 +1,4 @@
-pipeline {
+	pipeline {
 	agent any 
 	stages{
 	         stage('parallel execution') {
@@ -8,7 +8,7 @@ pipeline {
 	              bat "mvn clean"
 	         },
 			  b: {
-	              bat "mvn test
+	              bat "mvn test"
 	
 	         },
 			  c: {
