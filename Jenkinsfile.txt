@@ -29,7 +29,7 @@
 			 } 
 			 stage('E-mail build status') {
 	           steps {
-	              mail body:"${env.JOB_NAME}-Build #${env.BUILD_NUMBER}-${currentBuild.currentResult} \\n\\n check console o/p at ${env.BUILD_URL} to view the results", subject: "${env.JOB_NAME}-Build #${env.BUILD_NUMBER}-${currentBuild.currentResult}", to: 'achueliz007@gmail.com'
+	              mail body:"${env.JOB_NAME}-Build #${env.BUILD_NUMBER}-${currentBuild.currentResult}\n\\n check console o/p at ${env.BUILD_URL} to view the results", subject: "${env.JOB_NAME}-Build #${env.BUILD_NUMBER}-${currentBuild.currentResult}", to: 'achueliz007@gmail.com'
 	
 	         }
 			 }
