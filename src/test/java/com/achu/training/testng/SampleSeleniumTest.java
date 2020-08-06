@@ -3,9 +3,12 @@ package com.achu.training.testng;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.AssertJUnit;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -27,14 +30,13 @@ public class SampleSeleniumTest {
 	@Test
 	public void validateGoogleId() throws Exception {
 		driver.manage().window().maximize();
+		driver.manage().deleteAllCookies();
 	    driver.get("https://www.google.com/intl/en-GB/gmail/about/");
 	    driver.findElement(By.xpath("/html/body/div[2]/div[1]/div[4]/ul[1]/li[2]/a")).click();
-	    driver.findElement(By.xpath("//*[@id=\"identifierId\"]")).sendKeys("Pratik.modh24@gmail.com");
-	    driver.findElement(By.xpath("//*[@id=\"identifierNext\"]/content/span")).click();
-		Thread.sleep(5000);
-		boolean textFound = driver.getPageSource().contains("Forgot password");
-		AssertJUnit.assertTrue(textFound);
-
+	}
+	
+	@AfterClass
+	public void closeBrowser() {
+		driver.quit();
 	}
 }
-
