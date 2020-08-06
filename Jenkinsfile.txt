@@ -1,31 +1,37 @@
-			pipeline {
-		agent any 
-		stages{
-		         stage('cleaning') {
-				 steps {
-		              bat "mvn clean"
-		
-		         }
-				 }
-		         stage('Testing') {
-				 steps {
-		              bat "mvn test"
-		
-		         }
-				 }
-				 stage('packaging') {
-		           steps {
-		              bat "mvn package"
-		
-		         }
-				 }
-				 stage('Consolidate results') {
-		           steps {
-		              input ("do you want to capture results?")
-					  junit '**/target/surefire-reports/TEST-*.xml'
-	                  archive 'target/*.jar'
-		
-		         }
-				 } 
-		         }
-				 }
+				pipeline {
+	agent any 
+	stages{
+	         stage('cleaning') {
+			 steps {
+	              bat "mvn clean"
+	
+	         }
+			 }
+	         stage('Testing') {
+			 steps {
+	              bat "mvn test"
+	
+	         }
+			 }
+			 stage('packaging') {
+	           steps {
+	              bat "mvn package"
+	
+	         }
+			 }
+			 stage('Consolidate results') {
+	           steps {
+	              input ("do you want to capture results?")
+				  junit '**/target/surefire-reports/TEST-*.xml'
+                  archive 'target/*.jar'
+	
+	         }
+			 } 
+			 stage('E-mail build status') {
+	           steps {
+	              mail bcc: '', body: '${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} -${currentBuild.currentResult} \\n\\n check console o/p at ${env.BUILD_URL} to view the results ', cc: '', from: '', replyTo: '', subject: '${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} -${currentBuild.currentResult}', to: 'achueliz007@gmail.com'
+	
+	         }
+			 }
+	         }
+			 }
