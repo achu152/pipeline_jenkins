@@ -1,37 +1,35 @@
 					pipeline {
-	agent any 
-	stages{
-	         stage('cleaning') {
-			 steps {
-	              bat "mvn clean"
-	
-	         }
-			 }
-	         stage('Testing') {
-			 steps {
-	              bat "mvn test"
-	
-	         }
-			 }
-			 stage('packaging') {
-	           steps {
-	              bat "mvn package"
-	
-	         }
-			 }
-			 stage('Consolidate results') {
-	           steps {
-	              input ("do you want to capture results?")
-				  junit '**/target/surefire-reports/TEST-*.xml'
+agent any 
+stages{
+         stage('parallel execution') {
+		 steps {
+		      parallel(
+			  a: {
+              bat "mvn clean"
+         },
+		  b: {
+              bat "mvn test"
+
+         },
+		  c: {
+              bat "mvn package"
+
+         }
+		 )
+		 }
+		 }
+         stage('Consolidate results') {
+           steps {
+              input ("do you want to capture results?")
+			  junit '**/target/surefire-reports/TEST-*.xml'
                   archive 'target/*.jar'
-	
-	         }
-			 } 
-			 stage('E-mail build status') {
-	           steps {
-	              mail body:"${env.JOB_NAME}-Build #${env.BUILD_NUMBER}-${currentBuild.currentResult}\n\n check console o/p at ${env.BUILD_URL} to view the results", subject: "${env.JOB_NAME}-Build #${env.BUILD_NUMBER}-${currentBuild.currentResult}", to: 'achueliz007@gmail.com'
-	
-	         }
-			 }
-	         }
-			 }
+
+         }
+		 } 
+		 stage('E-mail build status') {
+           steps {              
+mail body:"${env.JOB_NAME}-Build #${env.BUILD_NUMBER}-${currentBuild.currentResult}\n\n check console o/p at ${env.BUILD_URL} to view the results", subject: "${env.JOB_NAME}-Build #${env.BUILD_NUMBER}-${currentBuild.currentResult}", to: 'achueliz007@gmail.com'
+         }
+		 }
+         }
+		 }
